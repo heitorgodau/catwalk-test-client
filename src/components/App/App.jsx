@@ -20,7 +20,7 @@ class App extends Component {
   }
 
   getAllEvents() {
-    axios.get('http://localhost:5000/api/events')
+    axios.get('http://catwalktestserver-env.9ivv2x5vie.us-west-1.elasticbeanstalk.com/api/events')
       .then(({ data }) => {
         this.setState({
           allEvents: data,

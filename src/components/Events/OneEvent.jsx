@@ -16,7 +16,7 @@ class OneEvent extends Component {
       },
       edit: false,
     };
-    this.axiosBase = 'http://localhost:80/api/event';
+    this.axiosBase = 'http://catwalktestserver-env.9ivv2x5vie.us-west-1.elasticbeanstalk.com/api/event';
     this.editEvent = this.editEvent.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
     this.deleteEvent = this.deleteEvent.bind(this);
