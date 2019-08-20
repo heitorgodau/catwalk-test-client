@@ -1,0 +1,27 @@
+h1, h2, h3 {
+  text-align: center;
+}
+
+.btn {
+  margin-top: 10px;
+  border: none;
+  border-radius: 7px;
+  background-color:steelblue;
+  color: #fff;
+  height: 30px;
+  padding: 0 7px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 170px;
+}
+
+.del-btn {
+  background-color: crimson;
+}
+
+.back-btn {
+  background-color: #333;
+}
