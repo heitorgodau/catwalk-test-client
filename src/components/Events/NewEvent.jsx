@@ -22,7 +22,7 @@ class NewEvent extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    axios.post('http://catwalktestserver-env.9ivv2x5vie.us-west-1.elasticbeanstalk.com/api/create-event', this.state)
+    axios.post('http://catwalk-env-1.zapfnca42w.us-west-1.elasticbeanstalk.com/api/create-event', this.state)
       .then(() => {
         this.props.getAllEvents();
         this.setState({
