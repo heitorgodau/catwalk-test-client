@@ -12,6 +12,7 @@ class App extends Component {
     this.state = {
       allEvents: [],
     };
+    this.axiosBase = 'http://localhost:5000/api';
     this.getAllEvents = this.getAllEvents.bind(this);
   }
 
@@ -19,16 +20,15 @@ class App extends Component {
     this.getAllEvents();
   }
 
-  getAllEvents() {
-    axios.get('http://catwalk-env-1.zapfnca42w.us-west-1.elasticbeanstalk.com/api/events')
-      .then(({ data }) => {
-        this.setState({
-          allEvents: data,
-        });
-      })
-      .catch((err) => {
-        throw new Error(err);
+  async getAllEvents() {
+    try {
+      const { data } = await axios.get(`${this.axiosBase}/events`);
+      this.setState({
+        allEvents: data,
       });
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
   render() {
@@ -42,11 +42,11 @@ class App extends Component {
               <>
                 <h1>This is all Events in this moment:</h1>
                 <AllEvents allEvents={this.state.allEvents} />
-                <NewEvent getAllEvents={this.getAllEvents} />
+                <NewEvent axiosBase={this.axiosBase} getAllEvents={this.getAllEvents} />
               </>
             )}
           />
-          <Route path="/event/:id" render={(props) => <OneEvent {...props} getAllEvents={this.getAllEvents} />} />
+          <Route path="/event/:id" render={props => <OneEvent {...props} axiosBase={this.axiosBase} getAllEvents={this.getAllEvents} />} />
         </Switch>
       </>
     );

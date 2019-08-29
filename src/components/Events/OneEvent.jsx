@@ -16,7 +16,6 @@ class OneEvent extends Component {
       },
       edit: false,
     };
-    this.axiosBase = 'http://catwalk-env-1.zapfnca42w.us-west-1.elasticbeanstalk.com/api/event';
     this.editEvent = this.editEvent.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
     this.deleteEvent = this.deleteEvent.bind(this);
@@ -27,25 +26,24 @@ class OneEvent extends Component {
     this.getOneEvent();
   }
 
-  getOneEvent() {
+  async getOneEvent() {
     const { id } = this.props.match.params;
-    axios.get(`${this.axiosBase}/${id}`)
-      .then(({ data }) => {
-        const { name, date, imageUrl, address, description } = data;
-        this.setState({
-          id,
-          oneEvent: {
-            name,
-            date,
-            imageUrl,
-            address,
-            description,
-          },
-        });
-      })
-      .catch((err) => {
-        throw new Error(err);
+    try {
+      const { data } = await axios.get(`${this.props.axiosBase}/event/${id}`);
+      const { name, date, imageUrl, address, description } = data;
+      this.setState({
+        id,
+        oneEvent: {
+          name,
+          date,
+          imageUrl,
+          address,
+          description,
+        },
       });
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
   editEvent() {
@@ -60,16 +58,16 @@ class OneEvent extends Component {
     this.getOneEvent();
   }
 
-  deleteEvent() {
+  async deleteEvent() {
     const { id } = this.state;
-    axios.get(`${this.axiosBase}/delete/${id}`)
-      .then(() => {
-        this.props.history.push('/');
-        this.props.getAllEvents();
-      })
-      .catch((err) => {
-        throw new Error(err);
-      });
+    const { axiosBase, history, getAllEvents } = this.props;
+    try {
+      await axios.get(`${axiosBase}/event/delete/${id}`);
+      history.push('/');
+      getAllEvents();
+    } catch (err) {
+      throw new Error(err);
+    };
   }
 
   handleChange(e) {
@@ -81,18 +79,17 @@ class OneEvent extends Component {
     });
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     const { oneEvent, id } = this.state;
-    axios.put(`${this.axiosBase}/${id}`, oneEvent)
-      .then(() => {
-        this.editEvent();
-        this.getOneEvent();
-        this.props.getAllEvents();
-      })
-      .catch((err) => {
-        throw new Error(err);
-      });
+    try {
+      await axios.put(`${this.props.axiosBase}/event/${id}`, oneEvent);
+      this.editEvent();
+      this.getOneEvent();
+      this.props.getAllEvents();
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
   render() {
